@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="pane" prefHeight="368.0" prefWidth="629.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="keystroke.AddToDatabaseController">
+    <children>
+      <TextField fx:id="name" layoutX="187.0" layoutY="40.0" prefHeight="25.0" prefWidth="255.0" promptText="Imię" />
+      <Text layoutX="123.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The quick brown fox jumps over the lazy dog." wrappingWidth="387.0">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Text>
+      <TextField fx:id="inputText" layoutX="187.0" layoutY="122.0" prefHeight="25.0" prefWidth="255.0" promptText="Wpisz tekst" />
+      <Button layoutX="291.0" layoutY="329.0" mnemonicParsing="false" onAction="#saveDataToCSV" text="Zapisz" />
+      <TextField fx:id="inputText1" layoutX="188.0" layoutY="197.0" prefHeight="25.0" prefWidth="255.0" promptText="Wpisz tekst" />
+      <Text layoutX="146.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pack my box with five dozen liquor jugs." wrappingWidth="341.0">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Text>
+      <TextField fx:id="inputText2" layoutX="187.0" layoutY="281.0" prefHeight="25.0" prefWidth="255.0" promptText="Wpisz tekst" />
+      <Text layoutX="153.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jackdaws love my big sphinx of quartz." wrappingWidth="326.0">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Text>
+    </children>
+</AnchorPane>

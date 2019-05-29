@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="pane" prefHeight="368.0" prefWidth="629.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="keystroke.IdentificationController">
+    <children>
+      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="629.0">
+        <menus>
+          <Menu mnemonicParsing="false" onAction="#addToDatabase" text="Dodaj do bazy" />
+          <Menu mnemonicParsing="false" onAction="#identification" text="Identyfikacja" />
+          <Menu mnemonicParsing="false" onAction="#verification" text="Weryfikacja" />
+        </menus>
+      </MenuBar>
+      <Text layoutX="208.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TexXxxt" />
+    </children>
+</AnchorPane>
