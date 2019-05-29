@@ -19,7 +19,6 @@ public class File {
             csvWriter.append(alphabet[i] + ";");
         }
         csvWriter.append("\n");
-
         csvWriter.flush();
         csvWriter.close();
     }
@@ -33,7 +32,7 @@ public class File {
             long[] alphabet = new long[27];
 
             for (int i = 1; i < data.length; i++) {
-                alphabet[i-1] = Long.parseLong(data[i]);
+                alphabet[i - 1] = Long.parseLong(data[i]);
             }
             users.add(new User(name, alphabet));
         }

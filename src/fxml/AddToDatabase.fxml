@@ -29,5 +29,6 @@
             <Font size="19.0" />
          </font>
       </Text>
+      <Button layoutY="342.0" mnemonicParsing="false" onAction="#backToMenu" text="Powrót" />
     </children>
 </AnchorPane>

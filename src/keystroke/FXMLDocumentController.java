@@ -44,4 +44,14 @@ public class FXMLDocumentController implements Initializable {
         newStage.show();
     }
 
+    @FXML
+    private void identificationWindow(ActionEvent event) throws IOException {
+        Parent parent = FXMLLoader.load(getClass().getResource("/fxml/Identification.fxml"));
+        Scene scene = new Scene(parent);
+        Stage newStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        newStage.setScene(scene);
+        newStage.setResizable(false);
+        newStage.show();
+    }
+
 }

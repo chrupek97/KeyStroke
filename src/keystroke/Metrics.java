@@ -1,10 +1,10 @@
 package keystroke;
 
-public class EuclidesMetrics {
+public class Metrics {
     private User user;
     private double sum;
 
-    public EuclidesMetrics(User user, double sum) {
+    public Metrics(User user, double sum) {
         this.user = user;
         this.sum = sum;
     }

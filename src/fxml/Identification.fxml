@@ -9,13 +9,32 @@
 
 <AnchorPane id="AnchorPane" fx:id="pane" prefHeight="368.0" prefWidth="629.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="keystroke.IdentificationController">
     <children>
-      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="629.0">
-        <menus>
-          <Menu mnemonicParsing="false" onAction="#addToDatabase" text="Dodaj do bazy" />
-          <Menu mnemonicParsing="false" onAction="#identification" text="Identyfikacja" />
-          <Menu mnemonicParsing="false" onAction="#verification" text="Weryfikacja" />
-        </menus>
-      </MenuBar>
-      <Text layoutX="208.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TexXxxt" />
+      <TextField fx:id="name" layoutX="187.0" layoutY="63.0" prefHeight="25.0" prefWidth="255.0" promptText="Imię" />
+      <Text layoutX="123.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The quick brown fox jumps over the lazy dog." wrappingWidth="387.0">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Text>
+      <TextField fx:id="inputText" layoutX="187.0" layoutY="122.0" prefHeight="25.0" prefWidth="255.0" promptText="Wpisz tekst" />
+      <Button layoutX="281.0" layoutY="329.0" mnemonicParsing="false" onAction="#identify" text="Identyfikuj" />
+      <TextField fx:id="inputText1" layoutX="188.0" layoutY="197.0" prefHeight="25.0" prefWidth="255.0" promptText="Wpisz tekst" />
+      <Text layoutX="146.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pack my box with five dozen liquor jugs." wrappingWidth="341.0">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Text>
+      <TextField fx:id="inputText2" layoutX="187.0" layoutY="281.0" prefHeight="25.0" prefWidth="255.0" promptText="Wpisz tekst" />
+      <Text layoutX="153.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jackdaws love my big sphinx of quartz." wrappingWidth="326.0">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Text>
+      <ComboBox fx:id="metrics" layoutX="278.0" layoutY="15.0" prefWidth="150.0" />
+      <Label layoutX="200.0" layoutY="15.0" prefHeight="25.0" prefWidth="72.0" text="Metryka">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Button layoutY="342.0" mnemonicParsing="false" onAction="#backToMenu" text="Powrót" />
     </children>
 </AnchorPane>

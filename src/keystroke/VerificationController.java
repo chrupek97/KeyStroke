@@ -17,17 +17,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class VerificationController implements Initializable {
 
     @FXML
     private AnchorPane pane;
-    @FXML
-    private TextField name;
     @FXML
     private ComboBox<String> metrics;
     @FXML
@@ -93,35 +96,35 @@ public class VerificationController implements Initializable {
     }
 
     /* sortowanie listy euklidesowej*/
-    public ArrayList<EuclidesMetrics> sort(ArrayList<EuclidesMetrics> em) {
+    public ArrayList<Metrics> sort(ArrayList<Metrics> em) {
         ArrayList<Double> sumToSort = new ArrayList<>();
-        ArrayList<EuclidesMetrics> sortEuclidesMetrics = new ArrayList<>();
+        ArrayList<Metrics> sortEuclidesMetrics = new ArrayList<>();
 
-        for (EuclidesMetrics e : em) {
+        for (Metrics e : em) {
             sumToSort.add(e.getSum());
         }
         Collections.sort(sumToSort);
         System.out.println(sumToSort);
         User user = null;
         for (Double d : sumToSort) {
-            for (EuclidesMetrics metric : em) {
+            for (Metrics metric : em) {
                 if (metric.getSum() == d) {
                     user = metric.getUser();
                     break;
                 }
             }
-            sortEuclidesMetrics.add(new EuclidesMetrics(user, d));
+            sortEuclidesMetrics.add(new Metrics(user, d));
         }
         System.out.println("R " + sortEuclidesMetrics.size());
         return sortEuclidesMetrics;
     }
 
     /* funkcja do identyfikacji użytkownika */
-    public void identifyFunction(String choiceMetric) {
+    public void verificateFunction(String choiceMetric) {
         int kParameter = 3;
-        User user = new User(name.getText(), alphabetWithAvgTime);  //użytkownik do weryfikacji
-        ArrayList<EuclidesMetrics> euclides = new ArrayList<>();    //lista zawierajaca uzytkownika i czas liczony wedlug wzoru Euclidesa
-        ArrayList<EuclidesMetrics> sortEuclides;        //lista posortowana
+        User user = new User("", alphabetWithAvgTime);  //użytkownik do weryfikacji
+        ArrayList<Metrics> euclides = new ArrayList<>();    //lista zawierajaca uzytkownika i czas liczony wedlug wzoru Euclidesa
+        ArrayList<Metrics> sortEuclides;        //lista posortowana
         ArrayList<String> userNames = new ArrayList<>();    //nazwy użytkowników
         choiceMetric = metrics.getSelectionModel().getSelectedItem().toString(); //wybor metryki
 
@@ -132,7 +135,7 @@ public class VerificationController implements Initializable {
                     /* sum += pierwiastek(potega(i-ta litera nowego uzytkownika + i-ta litera przykladowego uzytkownika))*/
                     sum += Math.sqrt(Math.pow((u.getAlphabet()[i] + user.getAlphabet()[i]), 2));
                 }
-                euclides.add(new EuclidesMetrics(u, sum));
+                euclides.add(new Metrics(u, sum));
             }
             sortEuclides = sort(euclides);
 
@@ -151,11 +154,8 @@ public class VerificationController implements Initializable {
                     nameOfUser = sortEuclides.get(i).getUser().getName();
                 }
             }
-            if (nameOfUser.equals(name.getText())) {
-                System.out.println("Dokładnie tak, jesteś " + name.getText());
-            } else {
-                System.out.println("Nie jesteś " + name.getText());
-            }
+            System.out.println("Jesteś " + nameOfUser);
+
         } else if (choiceMetric.equals("Manhattan")) {
             for (User u : users) {
                 double sum = 0.0;
@@ -163,7 +163,7 @@ public class VerificationController implements Initializable {
                     /* sum += pierwiastek(potega(i-ta litera nowego uzytkownika + i-ta litera przykladowego uzytkownika))*/
                     sum += Math.abs((u.getAlphabet()[i] - user.getAlphabet()[i]));
                 }
-                euclides.add(new EuclidesMetrics(u, sum));
+                euclides.add(new Metrics(u, sum));
             }
             sortEuclides = sort(euclides);
 
@@ -183,19 +183,25 @@ public class VerificationController implements Initializable {
                 }
             }
 
-            if (nameOfUser.equals(name.getText())) {
-                System.out.println("Dokładnie tak, jesteś " + name.getText());
-            } else {
-                System.out.println("Nie jesteś " + name.getText() + " Jesteś " + nameOfUser);
-            }
+            System.out.println("Jesteś " + nameOfUser);
         } else if (choiceMetric.equals("Czebyszewa")) {
         }
 
     }
 
     @FXML
-    private void identify(ActionEvent event) {
-        identifyFunction(metrics.getSelectionModel().getSelectedItem().toString());
+    private void backToMenu(ActionEvent event) throws IOException {
+        Parent parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLDocument.fxml"));
+        Scene scene = new Scene(parent);
+        Stage newStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        newStage.setScene(scene);
+        newStage.setResizable(false);
+        newStage.show();
+    }
+
+    @FXML
+    private void verification(ActionEvent event) {
+        verificateFunction(metrics.getSelectionModel().getSelectedItem().toString());
     }
 
 }

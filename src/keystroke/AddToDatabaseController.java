@@ -12,13 +12,16 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class AddToDatabaseController implements Initializable {
 
@@ -83,6 +86,16 @@ public class AddToDatabaseController implements Initializable {
     @FXML
     private void saveDataToCSV(ActionEvent event) throws IOException {
         file.saveToCsv(alphabetWithAvgTime, name);
+    }
+
+    @FXML
+    private void backToMenu(ActionEvent event) throws IOException {
+         Parent parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLDocument.fxml"));
+        Scene scene = new Scene(parent);
+        Stage newStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        newStage.setScene(scene);
+        newStage.setResizable(false);
+        newStage.show();
     }
 
 }
