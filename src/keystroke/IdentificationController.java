@@ -122,7 +122,10 @@ public class IdentificationController implements Initializable {
             }
             sortEuclidesMetrics.add(new Metrics(user, d));
         }
-        System.out.println("R " + sortEuclidesMetrics.size());
+        System.out.println("P");
+        System.out.println(sortEuclidesMetrics.get(0).getUser().getName());
+        System.out.println(sortEuclidesMetrics.get(1).getUser().getName());
+        System.out.println(sortEuclidesMetrics.get(2).getUser().getName());
         return sortEuclidesMetrics;
     }
 
@@ -140,15 +143,18 @@ public class IdentificationController implements Initializable {
                 double sum = 0.0;
                 for (int i = 0; i < 27; i++) {
                     /* sum += pierwiastek(potega(i-ta litera nowego uzytkownika + i-ta litera przykladowego uzytkownika))*/
-                    sum += Math.sqrt(Math.pow((u.getAlphabet()[i] + user.getAlphabet()[i]), 2));
+                    sum += Math.pow((u.getAlphabet()[i] - user.getAlphabet()[i]), 2);
                 }
-                euclides.add(new Metrics(u, sum));
+                euclides.add(new Metrics(u, Math.sqrt(sum)));
             }
             sortEuclides = sort(euclides);
 
             for (int i = 0; i < kParameter; i++) {
                 userNames.add(sortEuclides.get(i).getUser().getName());
             }
+            System.out.println(userNames.get(0));
+            System.out.println(userNames.get(1));
+            System.out.println(userNames.get(2));
             int max = 0;        //maksymalna liczba wystapien opbiektu
             double minSum = sortEuclides.get(0).getSum();      //najmniejsza droga
             int howMany = 0;    //liczba wystapien danego obiektu
@@ -184,6 +190,10 @@ public class IdentificationController implements Initializable {
             double minSum = sortEuclides.get(0).getSum();      //najmniejsza droga
             int howMany = 0;    //liczba wystapien danego obiektu
             String nameOfUser = null;
+            System.out.println(sortEuclides.get(0).getUser().getName());
+            System.out.println(sortEuclides.get(1).getUser().getName());
+            System.out.println(sortEuclides.get(2).getUser().getName());
+            
             for (int i = 0; i < kParameter; i++) {
                 howMany = Collections.frequency(userNames, sortEuclides.get(i).getUser().getName());
                 if ((howMany >= max) && (sortEuclides.get(i).getSum() <= minSum)) {
