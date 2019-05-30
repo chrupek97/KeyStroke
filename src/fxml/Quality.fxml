@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="pane" prefHeight="368.0" prefWidth="629.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="keystroke.QualityController">
+    <children>
+      <Button layoutY="342.0" mnemonicParsing="false" onAction="#backToMenu" text="Powrót" />
+      <ComboBox fx:id="metrics" layoutX="296.0" layoutY="159.0" prefWidth="150.0" />
+      <Text layoutX="198.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Metryka">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Button layoutX="270.0" layoutY="248.0" mnemonicParsing="false" onAction="#checkQuality" text="Zbadaj jakość" />
+    </children>
+</AnchorPane>

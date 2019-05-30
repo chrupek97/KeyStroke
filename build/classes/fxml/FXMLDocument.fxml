@@ -15,7 +15,17 @@
             <Font size="30.0" />
          </font>
       </Button>
-      <Button layoutX="56.0" layoutY="134.0" mnemonicParsing="false" onAction="#verificationWindow" text="Weryfikacja">
+      <Button layoutX="56.0" layoutY="135.0" mnemonicParsing="false" onAction="#verificationWindow" text="Weryfikacja">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Button>
+      <Button layoutX="56.0" layoutY="232.0" mnemonicParsing="false" onAction="#identificationWindow" text="Identyfikacja">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Button>
+      <Button layoutX="348.0" layoutY="135.0" mnemonicParsing="false" onAction="#checkQualityWindow" text="Sprawdź jakość">
          <font>
             <Font size="30.0" />
          </font>
