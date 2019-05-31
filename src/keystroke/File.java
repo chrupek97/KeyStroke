@@ -40,6 +40,7 @@ public class File {
         loadFlightTimeFromCsv(users);
         csvReader.close();
     }
+
     public void loadFlightTimeFromCsv(ArrayList<User> users) throws FileNotFoundException, IOException {
         String row;
         BufferedReader csvReader = new BufferedReader(new FileReader("flightTime.csv"));

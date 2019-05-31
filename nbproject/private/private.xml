@@ -3,16 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Mateusz/Documents/GitHub/KeyStroke/src/keystroke/IdentificationController.java</file>
-            <file>file:/C:/Users/Mateusz/Documents/GitHub/KeyStroke/src/keystroke/User.java</file>
-            <file>file:/C:/Users/Mateusz/Documents/GitHub/KeyStroke/src/keystroke/File.java</file>
-            <file>file:/C:/Users/Mateusz/Documents/GitHub/KeyStroke/src/keystroke/VerificationController.java</file>
-            <file>file:/C:/Users/Mateusz/Documents/GitHub/KeyStroke/src/keystroke/KNN.java</file>
-            <file>file:/C:/Users/Mateusz/Documents/GitHub/KeyStroke/src/keystroke/AddToDatabaseController.java</file>
-            <file>file:/C:/Users/Mateusz/Documents/GitHub/KeyStroke/src/keystroke/FXMLDocumentController.java</file>
-            <file>file:/C:/Users/Mateusz/Documents/GitHub/KeyStroke/src/fxml/Verification.fxml</file>
-            <file>file:/C:/Users/Mateusz/Documents/GitHub/KeyStroke/src/keystroke/KeyStroke.java</file>
-            <file>file:/C:/Users/Mateusz/Documents/GitHub/KeyStroke/src/keystroke/CharAsNumber.java</file>
+            <file>file:/C:/Users/jacen/Documents/MEGAsync/Biometria_projekt_2/KeyStroke/src/keystroke/File.java</file>
+            <file>file:/C:/Users/jacen/Documents/MEGAsync/Biometria_projekt_2/KeyStroke/src/keystroke/KeyStroke.java</file>
+            <file>file:/C:/Users/jacen/Documents/MEGAsync/Biometria_projekt_2/KeyStroke/src/keystroke/User.java</file>
+            <file>file:/C:/Users/jacen/Documents/MEGAsync/Biometria_projekt_2/KeyStroke/src/keystroke/AddToDatabaseController.java</file>
+            <file>file:/C:/Users/jacen/Documents/MEGAsync/Biometria_projekt_2/KeyStroke/src/keystroke/VerificationController.java</file>
+            <file>file:/C:/Users/jacen/Documents/MEGAsync/Biometria_projekt_2/KeyStroke/src/keystroke/Metrics.java</file>
+            <file>file:/C:/Users/jacen/Documents/MEGAsync/Biometria_projekt_2/KeyStroke/src/keystroke/IdentificationController.java</file>
         </group>
     </open-files>
 </project-private>

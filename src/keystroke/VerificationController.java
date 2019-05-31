@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package keystroke;
 
 import java.io.IOException;
@@ -12,6 +7,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,6 +40,12 @@ public class VerificationController implements Initializable {
     private long alphabetWithAvgTime[] = new long[27];
     private File file = new File();
     private ArrayList<User> users = new ArrayList<>();
+    private long alphabetWithFlightTimes[] = new long[27];
+    private int countOfFlightTimes[] = new int[27];
+    private Instant flightTime;
+    private int flightIndex;
+    private boolean flightTimeStart = true;
+    private long flightTimeDuration;
 
     public long dwellTime(Instant start, Instant stop) {
         long timeElapsed = Duration.between(start, stop).toMillis();
@@ -64,33 +66,50 @@ public class VerificationController implements Initializable {
 
         inputText.setOnKeyPressed((event) -> {
             time[0] = Instant.now();
+            if (flightTimeStart) {
+                flightTime = time[0];
+                flightTimeStart = false;
+            } else {
+                flightTimeFunction();
+            }
         });
 
         inputText.setOnKeyReleased((event) -> {
             time[1] = Instant.now();
             int index = CharAsNumber.asNumber(event.getText());
-            alphabetWithAvgTime[index] = (alphabetWithAvgTime[index] + dwellTime(time[0], time[1])) / 2;
+            flightIndex = index;
+            if (index != -1) {
+                alphabetWithAvgTime[index] = (alphabetWithAvgTime[index] + dwellTime(time[0], time[1])) / 2;
+            }
             System.out.println(Arrays.toString(alphabetWithAvgTime));
         });
 
         inputText1.setOnKeyPressed((event) -> {
             time[0] = Instant.now();
+            flightTimeFunction();
         });
 
         inputText1.setOnKeyReleased((event) -> {
             time[1] = Instant.now();
             int index = CharAsNumber.asNumber(event.getText());
-            alphabetWithAvgTime[index] = (alphabetWithAvgTime[index] + dwellTime(time[0], time[1])) / 2;
+            flightIndex = index;
+            if (index != -1) {
+                alphabetWithAvgTime[index] = (alphabetWithAvgTime[index] + dwellTime(time[0], time[1])) / 2;
+            }
             System.out.println(Arrays.toString(alphabetWithAvgTime));
         });
         inputText2.setOnKeyPressed((event) -> {
             time[0] = Instant.now();
+            flightTimeFunction();
         });
 
         inputText2.setOnKeyReleased((event) -> {
             time[1] = Instant.now();
             int index = CharAsNumber.asNumber(event.getText());
-            alphabetWithAvgTime[index] = (alphabetWithAvgTime[index] + dwellTime(time[0], time[1])) / 2;
+            flightIndex = index;
+            if (index != -1) {
+                alphabetWithAvgTime[index] = (alphabetWithAvgTime[index] + dwellTime(time[0], time[1])) / 2;
+            }
             System.out.println(Arrays.toString(alphabetWithAvgTime));
         });
     }
@@ -122,7 +141,14 @@ public class VerificationController implements Initializable {
     /* funkcja do identyfikacji użytkownika */
     public void verificateFunction(String choiceMetric) {
         int kParameter = 3;
-        User user = new User("", alphabetWithAvgTime);  //użytkownik do weryfikacji
+        long[] average = new long[27];
+        for (int i = 0; i < 27; i++) {
+            if (countOfFlightTimes[i] != 0) {
+                average[i] = alphabetWithFlightTimes[i] / countOfFlightTimes[i];
+                System.out.println(Arrays.toString(average));
+            }
+        }
+        User user = new User("", alphabetWithAvgTime, average);  //użytkownik do weryfikacji
         ArrayList<Metrics> euclides = new ArrayList<>();    //lista zawierajaca uzytkownika i czas liczony wedlug wzoru Euclidesa
         ArrayList<Metrics> sortEuclides;        //lista posortowana
         ArrayList<String> userNames = new ArrayList<>();    //nazwy użytkowników
@@ -133,9 +159,10 @@ public class VerificationController implements Initializable {
                 double sum = 0.0;
                 for (int i = 0; i < 27; i++) {
                     /* sum += pierwiastek(potega(i-ta litera nowego uzytkownika + i-ta litera przykladowego uzytkownika))*/
-                    sum += Math.sqrt(Math.pow((u.getAlphabet()[i] + user.getAlphabet()[i]), 2));
+                    sum += Math.pow((u.getAlphabet()[i] - user.getAlphabet()[i]), 2);
+                    sum += Math.pow((u.getFlightTimes()[i] - user.getFlightTimes()[i]), 2);
                 }
-                euclides.add(new Metrics(u, sum));
+                euclides.add(new Metrics(u, Math.sqrt(sum)));
             }
             sortEuclides = sort(euclides);
 
@@ -162,6 +189,7 @@ public class VerificationController implements Initializable {
                 for (int i = 0; i < 27; i++) {
                     /* sum += pierwiastek(potega(i-ta litera nowego uzytkownika + i-ta litera przykladowego uzytkownika))*/
                     sum += Math.abs((u.getAlphabet()[i] - user.getAlphabet()[i]));
+                    sum += Math.abs((u.getFlightTimes()[i] - user.getFlightTimes()[i]));
                 }
                 euclides.add(new Metrics(u, sum));
             }
@@ -182,9 +210,36 @@ public class VerificationController implements Initializable {
                     nameOfUser = sortEuclides.get(i).getUser().getName();
                 }
             }
-
             System.out.println("Jesteś " + nameOfUser);
         } else if (choiceMetric.equals("Czebyszewa")) {
+            double maxValue;
+            for (User u : users) {
+                List<Double> absValues = new ArrayList<>();
+                for (int i = 0; i < 27; i++) {
+                    absValues.add(new Double(Math.abs(user.getAlphabet()[i] - u.getAlphabet()[i])));
+                    absValues.add(new Double(Math.abs(user.getFlightTimes()[i] - u.getFlightTimes()[i])));
+                }
+                maxValue = Collections.max(absValues);
+                euclides.add(new Metrics(u, maxValue));
+            }
+            sortEuclides = sort(euclides);
+            for (int i = 0; i < kParameter; i++) {
+                userNames.add(sortEuclides.get(i).getUser().getName());
+            }
+            int max = 0;        //maksymalna liczba wystapien opbiektu
+            double minSum = sortEuclides.get(0).getSum();      //najmniejsza droga
+            int howMany = 0;    //liczba wystapien danego obiektu
+            String nameOfUser = null;
+            for (int i = 0; i < kParameter; i++) {
+                howMany = Collections.frequency(userNames, sortEuclides.get(i).getUser().getName());
+                if ((howMany >= max) && (sortEuclides.get(i).getSum() <= minSum)) {
+                    max = howMany;
+                    minSum = sortEuclides.get(i).getSum();
+                    nameOfUser = sortEuclides.get(i).getUser().getName();
+                }
+            }
+            System.out.println("Jesteś " + nameOfUser);
+
         }
 
     }
@@ -204,4 +259,16 @@ public class VerificationController implements Initializable {
         verificateFunction(metrics.getSelectionModel().getSelectedItem().toString());
     }
 
+    private void flightTimeFunction() {
+        flightTimeDuration = dwellTime(flightTime, time[0]);
+        if ((flightTimeDuration < 1500) && (flightIndex > -1)) {
+            countOfFlightTimes[flightIndex]++;
+            alphabetWithFlightTimes[flightIndex] += flightTimeDuration;
+            System.out.println(Arrays.toString(alphabetWithFlightTimes));
+            System.out.println(flightTimeDuration);
+            System.out.println(flightIndex);
+            System.out.println("-----------------");
+        }
+        flightTime = time[0];
+    }
 }

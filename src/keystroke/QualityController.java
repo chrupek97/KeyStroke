@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import static java.util.Arrays.sort;
 import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -90,6 +91,7 @@ public class QualityController implements Initializable {
                     for (int i = 0; i < 27; i++) {
                         /* sum += pierwiastek(potega(i-ta litera nowego uzytkownika + i-ta litera przykladowego uzytkownika))*/
                         sum += Math.pow((u.getAlphabet()[i] - us.getAlphabet()[i]), 2);
+                        sum += Math.pow((u.getFlightTimes()[i] - us.getFlightTimes()[i]), 2);
                     }
                     euclides.add(new Metrics(u, Math.sqrt(sum)));
                 }
@@ -122,6 +124,7 @@ public class QualityController implements Initializable {
                     for (int i = 0; i < 27; i++) {
                         /* sum += pierwiastek(potega(i-ta litera nowego uzytkownika + i-ta litera przykladowego uzytkownika))*/
                         sum += Math.abs((u.getAlphabet()[i] - us.getAlphabet()[i]));
+                        sum += Math.abs((u.getFlightTimes()[i] - us.getFlightTimes()[i]));
                     }
                     euclides.add(new Metrics(u, sum));
                 }
@@ -145,6 +148,41 @@ public class QualityController implements Initializable {
                 if (nameOfUser.equals(us.getName())) {
                     counter++;
                 }
+            }
+        } else if (metric.equals("Czebyszewa")) {
+            double maxValue;
+            for (User us : users) {
+                euclides = new ArrayList<>();
+                for (User u : users) {
+                    List<Double> absValues = new ArrayList<>();
+                    for (int i = 0; i < 27; i++) {
+                        absValues.add(new Double(Math.abs(us.getAlphabet()[i] - u.getAlphabet()[i])));
+                        absValues.add(new Double(Math.abs(us.getFlightTimes()[i] - u.getFlightTimes()[i])));
+                    }
+                    maxValue = Collections.max(absValues);
+                    euclides.add(new Metrics(u, maxValue));
+                }
+                sortEuclides = sort(euclides);
+
+                for (int i = 0; i < kParameter; i++) {
+                    userNames.add(sortEuclides.get(i).getUser().getName());
+                }
+                int max = 0;        //maksymalna liczba wystapien opbiektu
+                double minSum = sortEuclides.get(0).getSum();      //najmniejsza droga
+                int howMany = 0;    //liczba wystapien danego obiektu
+                String nameOfUser = null;
+                for (int i = 0; i < kParameter; i++) {
+                    howMany = Collections.frequency(userNames, sortEuclides.get(i).getUser().getName());
+                    if ((howMany >= max) && (sortEuclides.get(i).getSum() <= minSum)) {
+                        max = howMany;
+                        minSum = sortEuclides.get(i).getSum();
+                        nameOfUser = sortEuclides.get(i).getUser().getName();
+                    }
+                }
+                if (nameOfUser.equals(us.getName())) {
+                    counter++;
+                }
+
             }
         }
         return ((double) counter / (double) users.size()) * 100.00;

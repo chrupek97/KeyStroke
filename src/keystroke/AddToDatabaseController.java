@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package keystroke;
 
 import java.io.IOException;
@@ -45,7 +40,6 @@ public class AddToDatabaseController implements Initializable {
     private boolean flightTimeStart = true;
     private long flightTimeDuration;
     private File file = new File();
-    private ArrayList<User> users = new ArrayList<>();
 
     public long dwellTime(Instant start, Instant stop) {
         long timeElapsed = Duration.between(start, stop).toMillis();
