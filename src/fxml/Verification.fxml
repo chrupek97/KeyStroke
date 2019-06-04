@@ -35,5 +35,6 @@
          </font>
       </Label>
       <Button layoutY="342.0" mnemonicParsing="false" onAction="#backToMenu" text="Powrót" />
+      <TextField fx:id="name" layoutX="192.0" layoutY="60.0" prefHeight="25.0" prefWidth="255.0" promptText="Imię" />
     </children>
 </AnchorPane>

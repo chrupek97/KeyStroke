@@ -8,11 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-<<<<<<< HEAD
-    <jar href="KeyStroke.jar" size="26485" download="eager" />
-=======
-    <jar href="KeyStroke.jar" size="28432" download="eager" />
->>>>>>> 3c15ebc1ac8dde87c1500b9dc8d4b380b41a37c3
+    <jar href="KeyStroke.jar" size="28265" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="KeyStroke" >
     <param name="requiredFXVersion" value="8.0+"/>

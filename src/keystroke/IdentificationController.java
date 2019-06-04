@@ -28,8 +28,6 @@ public class IdentificationController implements Initializable {
     @FXML
     private AnchorPane pane;
     @FXML
-    private TextField name;
-    @FXML
     private ComboBox<String> metrics;
     @FXML
     private TextField inputText;
@@ -63,7 +61,7 @@ public class IdentificationController implements Initializable {
         try {
             file.loadFromCsv(users);
         } catch (IOException ex) {
-            Logger.getLogger(IdentificationController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VerificationController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         inputText.setOnKeyPressed((event) -> {
@@ -125,7 +123,6 @@ public class IdentificationController implements Initializable {
             sumToSort.add(e.getSum());
         }
         Collections.sort(sumToSort);
-        System.out.println(sumToSort);
         User user = null;
         for (Double d : sumToSort) {
             for (Metrics metric : em) {
@@ -136,15 +133,11 @@ public class IdentificationController implements Initializable {
             }
             sortEuclidesMetrics.add(new Metrics(user, d));
         }
-        System.out.println("P");
-        System.out.println(sortEuclidesMetrics.get(0).getUser().getName());
-        System.out.println(sortEuclidesMetrics.get(1).getUser().getName());
-        System.out.println(sortEuclidesMetrics.get(2).getUser().getName());
         return sortEuclidesMetrics;
     }
 
     /* funkcja do identyfikacji użytkownika */
-    public void identifyFunction(String choiceMetric) {
+    public void verificateFunction(String choiceMetric) {
         int kParameter = 3;
         long[] average = new long[27];
         for (int i = 0; i < 27; i++) {
@@ -153,7 +146,7 @@ public class IdentificationController implements Initializable {
                 System.out.println(Arrays.toString(average));
             }
         }
-        User user = new User(name.getText(), alphabetWithAvgTime, average);  //użytkownik do weryfikacji
+        User user = new User("", alphabetWithAvgTime, average);  //użytkownik do weryfikacji
         ArrayList<Metrics> euclides = new ArrayList<>();    //lista zawierajaca uzytkownika i czas liczony wedlug wzoru Euclidesa
         ArrayList<Metrics> sortEuclides;        //lista posortowana
         ArrayList<String> userNames = new ArrayList<>();    //nazwy użytkowników
@@ -174,9 +167,6 @@ public class IdentificationController implements Initializable {
             for (int i = 0; i < kParameter; i++) {
                 userNames.add(sortEuclides.get(i).getUser().getName());
             }
-            System.out.println(userNames.get(0));
-            System.out.println(userNames.get(1));
-            System.out.println(userNames.get(2));
             int max = 0;        //maksymalna liczba wystapien opbiektu
             double minSum = sortEuclides.get(0).getSum();      //najmniejsza droga
             int howMany = 0;    //liczba wystapien danego obiektu
@@ -189,18 +179,15 @@ public class IdentificationController implements Initializable {
                     nameOfUser = sortEuclides.get(i).getUser().getName();
                 }
             }
-            if (nameOfUser.equals(name.getText())) {
-                System.out.println("Dokładnie tak, jesteś " + name.getText());
-            } else {
-                System.out.println("Nie jesteś " + name.getText());
-            }
+            System.out.println("Jesteś " + nameOfUser);
+
         } else if (choiceMetric.equals("Manhattan")) {
             for (User u : users) {
                 double sum = 0.0;
                 for (int i = 0; i < 27; i++) {
                     /* sum += pierwiastek(potega(i-ta litera nowego uzytkownika + i-ta litera przykladowego uzytkownika))*/
-                    sum += Math.abs(u.getAlphabet()[i] - user.getAlphabet()[i]);
-                    sum += Math.abs(u.getFlightTimes()[i] - user.getFlightTimes()[i]);
+                    sum += Math.abs((u.getAlphabet()[i] - user.getAlphabet()[i]));
+                    sum += Math.abs((u.getFlightTimes()[i] - user.getFlightTimes()[i]));
                 }
                 euclides.add(new Metrics(u, sum));
             }
@@ -213,10 +200,6 @@ public class IdentificationController implements Initializable {
             double minSum = sortEuclides.get(0).getSum();      //najmniejsza droga
             int howMany = 0;    //liczba wystapien danego obiektu
             String nameOfUser = null;
-            System.out.println(sortEuclides.get(0).getUser().getName());
-            System.out.println(sortEuclides.get(1).getUser().getName());
-            System.out.println(sortEuclides.get(2).getUser().getName());
-
             for (int i = 0; i < kParameter; i++) {
                 howMany = Collections.frequency(userNames, sortEuclides.get(i).getUser().getName());
                 if ((howMany >= max) && (sortEuclides.get(i).getSum() <= minSum)) {
@@ -225,24 +208,23 @@ public class IdentificationController implements Initializable {
                     nameOfUser = sortEuclides.get(i).getUser().getName();
                 }
             }
-
-            if (nameOfUser.equals(name.getText())) {
-                System.out.println("Dokładnie tak, jesteś " + name.getText());
-            } else {
-                System.out.println("Nie jesteś " + name.getText() + " Jesteś " + nameOfUser);
-            }
+            System.out.println("Jesteś " + nameOfUser);
         } else if (choiceMetric.equals("Czebyszewa")) {
-            double maxValue;
+            ArrayList<Double> absValues;
+            
+            euclides = new ArrayList<>();
             for (User u : users) {
-                List<Double> absValues = new ArrayList<>();
+                absValues = new ArrayList<>();
                 for (int i = 0; i < 27; i++) {
-                    absValues.add(new Double(Math.abs(user.getAlphabet()[i] - u.getAlphabet()[i])));
-                    absValues.add(new Double(Math.abs(user.getFlightTimes()[i] - u.getFlightTimes()[i])));
+                    /* sum += pierwiastek(potega(i-ta litera nowego uzytkownika + i-ta litera przykladowego uzytkownika))*/
+                    absValues.add((double) (Math.abs((u.getAlphabet()[i] - user.getAlphabet()[i]))));
+                    absValues.add((double) (Math.abs((u.getFlightTimes()[i] - user.getFlightTimes()[i]))));
                 }
-                maxValue = Collections.max(absValues);
-                euclides.add(new Metrics(u, maxValue));
+                double maxAbs = Collections.max(absValues);
+                euclides.add(new Metrics(u, maxAbs));
             }
             sortEuclides = sort(euclides);
+
             for (int i = 0; i < kParameter; i++) {
                 userNames.add(sortEuclides.get(i).getUser().getName());
             }
@@ -258,18 +240,9 @@ public class IdentificationController implements Initializable {
                     nameOfUser = sortEuclides.get(i).getUser().getName();
                 }
             }
-            if (nameOfUser.equals(name.getText())) {
-                System.out.println("Dokładnie tak, jesteś " + name.getText());
-            } else {
-                System.out.println("Nie jesteś " + name.getText() + " Jesteś " + nameOfUser);
-            }
+            System.out.println("Jesteś " + nameOfUser);
         }
 
-    }
-
-    @FXML
-    private void identify(ActionEvent event) {
-        identifyFunction(metrics.getSelectionModel().getSelectedItem().toString());
     }
 
     @FXML
@@ -280,6 +253,10 @@ public class IdentificationController implements Initializable {
         newStage.setScene(scene);
         newStage.setResizable(false);
         newStage.show();
+    }
+
+    private void verification(ActionEvent event) {
+        verificateFunction(metrics.getSelectionModel().getSelectedItem().toString());
     }
 
     private void flightTimeFunction() {
@@ -293,5 +270,9 @@ public class IdentificationController implements Initializable {
             System.out.println("-----------------");
         }
         flightTime = time[0];
+    }
+
+    @FXML
+    private void identify(ActionEvent event) {
     }
 }
