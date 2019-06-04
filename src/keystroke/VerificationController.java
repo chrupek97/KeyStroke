@@ -46,6 +46,8 @@ public class VerificationController implements Initializable {
     private int flightIndex;
     private boolean flightTimeStart = true;
     private long flightTimeDuration;
+    @FXML
+    private TextField name;
 
     public long dwellTime(Instant start, Instant stop) {
         long timeElapsed = Duration.between(start, stop).toMillis();
@@ -61,7 +63,7 @@ public class VerificationController implements Initializable {
         try {
             file.loadFromCsv(users);
         } catch (IOException ex) {
-            Logger.getLogger(IdentificationController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VerificationController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         inputText.setOnKeyPressed((event) -> {
@@ -134,12 +136,11 @@ public class VerificationController implements Initializable {
             }
             sortEuclidesMetrics.add(new Metrics(user, d));
         }
-        System.out.println("R " + sortEuclidesMetrics.size());
         return sortEuclidesMetrics;
     }
 
     /* funkcja do identyfikacji użytkownika */
-    public void verificateFunction(String choiceMetric) {
+    public void verificationFunction(String choiceMetric) {
         int kParameter = 3;
         long[] average = new long[27];
         for (int i = 0; i < 27; i++) {
@@ -181,7 +182,11 @@ public class VerificationController implements Initializable {
                     nameOfUser = sortEuclides.get(i).getUser().getName();
                 }
             }
-            System.out.println("Jesteś " + nameOfUser);
+            if (nameOfUser.equals(name.getText())) {
+                System.out.println("Tak, jesteś " + name.getText());
+            } else {
+                System.out.println("Nie jesteś " + name.getText());
+            }
 
         } else if (choiceMetric.equals("Manhattan")) {
             for (User u : users) {
@@ -210,36 +215,27 @@ public class VerificationController implements Initializable {
                     nameOfUser = sortEuclides.get(i).getUser().getName();
                 }
             }
-            System.out.println("Jesteś " + nameOfUser);
+            if (nameOfUser.equals(name.getText())) {
+                System.out.println("Tak, jesteś " + name.getText());
+            } else {
+                System.out.println("Nie jesteś" + name.getText());
+            }
         } else if (choiceMetric.equals("Czebyszewa")) {
-<<<<<<< HEAD
-            System.out.println("Jakość Czebyszewa");
             ArrayList<Double> absValues;
-            absValues = new ArrayList<>();
+
             euclides = new ArrayList<>();
             for (User u : users) {
+                absValues = new ArrayList<>();
                 for (int i = 0; i < 27; i++) {
                     /* sum += pierwiastek(potega(i-ta litera nowego uzytkownika + i-ta litera przykladowego uzytkownika))*/
                     absValues.add((double) (Math.abs((u.getAlphabet()[i] - user.getAlphabet()[i]))));
+                    absValues.add((double) (Math.abs((u.getFlightTimes()[i] - user.getFlightTimes()[i]))));
                 }
                 double maxAbs = Collections.max(absValues);
                 euclides.add(new Metrics(u, maxAbs));
             }
             sortEuclides = sort(euclides);
 
-=======
-            double maxValue;
-            for (User u : users) {
-                List<Double> absValues = new ArrayList<>();
-                for (int i = 0; i < 27; i++) {
-                    absValues.add(new Double(Math.abs(user.getAlphabet()[i] - u.getAlphabet()[i])));
-                    absValues.add(new Double(Math.abs(user.getFlightTimes()[i] - u.getFlightTimes()[i])));
-                }
-                maxValue = Collections.max(absValues);
-                euclides.add(new Metrics(u, maxValue));
-            }
-            sortEuclides = sort(euclides);
->>>>>>> 3c15ebc1ac8dde87c1500b9dc8d4b380b41a37c3
             for (int i = 0; i < kParameter; i++) {
                 userNames.add(sortEuclides.get(i).getUser().getName());
             }
@@ -255,14 +251,15 @@ public class VerificationController implements Initializable {
                     nameOfUser = sortEuclides.get(i).getUser().getName();
                 }
             }
-            System.out.println("Jesteś " + nameOfUser);
-<<<<<<< HEAD
-=======
-
->>>>>>> 3c15ebc1ac8dde87c1500b9dc8d4b380b41a37c3
+            if (nameOfUser.equals(name.getText())) {
+                System.out.println("Tak, jesteś " + name.getText());
+            } else {
+                System.out.println("Nie jesteś" + name.getText());
+            }
         }
 
     }
+
 
     @FXML
     private void backToMenu(ActionEvent event) throws IOException {
@@ -272,11 +269,6 @@ public class VerificationController implements Initializable {
         newStage.setScene(scene);
         newStage.setResizable(false);
         newStage.show();
-    }
-
-    @FXML
-    private void verification(ActionEvent event) {
-        verificateFunction(metrics.getSelectionModel().getSelectedItem().toString());
     }
 
     private void flightTimeFunction() {
@@ -290,5 +282,10 @@ public class VerificationController implements Initializable {
             System.out.println("-----------------");
         }
         flightTime = time[0];
+    }
+
+    @FXML
+    private void verification(ActionEvent event) {
+        verificationFunction(metrics.getSelectionModel().getSelectedItem().toString());
     }
 }
