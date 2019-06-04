@@ -1,6 +1,7 @@
 package keystroke;
 
 public class Metrics {
+
     private User user;
     private double sum;
 
