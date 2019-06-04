@@ -58,7 +58,7 @@ public class AddToDatabaseController implements Initializable {
             alphabetWithAvgTime[index] = (alphabetWithAvgTime[index] + dwellTime(time[0], time[1])) / 2;
             System.out.println(Arrays.toString(alphabetWithAvgTime));
         });
-        
+
         inputText1.setOnKeyPressed((event) -> {
             time[0] = Instant.now();
         });
@@ -79,8 +79,7 @@ public class AddToDatabaseController implements Initializable {
             alphabetWithAvgTime[index] = (alphabetWithAvgTime[index] + dwellTime(time[0], time[1])) / 2;
             System.out.println(Arrays.toString(alphabetWithAvgTime));
         });
-        
-        
+
     }
 
     @FXML
@@ -90,7 +89,7 @@ public class AddToDatabaseController implements Initializable {
 
     @FXML
     private void backToMenu(ActionEvent event) throws IOException {
-         Parent parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLDocument.fxml"));
+        Parent parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLDocument.fxml"));
         Scene scene = new Scene(parent);
         Stage newStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         newStage.setScene(scene);

@@ -185,6 +185,36 @@ public class VerificationController implements Initializable {
 
             System.out.println("Jesteś " + nameOfUser);
         } else if (choiceMetric.equals("Czebyszewa")) {
+            System.out.println("Jakość Czebyszewa");
+            ArrayList<Double> absValues;
+            absValues = new ArrayList<>();
+            euclides = new ArrayList<>();
+            for (User u : users) {
+                for (int i = 0; i < 27; i++) {
+                    /* sum += pierwiastek(potega(i-ta litera nowego uzytkownika + i-ta litera przykladowego uzytkownika))*/
+                    absValues.add((double) (Math.abs((u.getAlphabet()[i] - user.getAlphabet()[i]))));
+                }
+                double maxAbs = Collections.max(absValues);
+                euclides.add(new Metrics(u, maxAbs));
+            }
+            sortEuclides = sort(euclides);
+
+            for (int i = 0; i < kParameter; i++) {
+                userNames.add(sortEuclides.get(i).getUser().getName());
+            }
+            int max = 0;        //maksymalna liczba wystapien opbiektu
+            double minSum = sortEuclides.get(0).getSum();      //najmniejsza droga
+            int howMany = 0;    //liczba wystapien danego obiektu
+            String nameOfUser = null;
+            for (int i = 0; i < kParameter; i++) {
+                howMany = Collections.frequency(userNames, sortEuclides.get(i).getUser().getName());
+                if ((howMany >= max) && (sortEuclides.get(i).getSum() <= minSum)) {
+                    max = howMany;
+                    minSum = sortEuclides.get(i).getSum();
+                    nameOfUser = sortEuclides.get(i).getUser().getName();
+                }
+            }
+            System.out.println("Jesteś " + nameOfUser);
         }
 
     }

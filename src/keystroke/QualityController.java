@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import sun.rmi.runtime.Log;
 
 public class QualityController implements Initializable {
 
@@ -60,7 +61,6 @@ public class QualityController implements Initializable {
             sumToSort.add(e.getSum());
         }
         Collections.sort(sumToSort);
-        System.out.println(sumToSort);
         User user = null;
         for (Double d : sumToSort) {
             for (Metrics metric : em) {
@@ -71,11 +71,12 @@ public class QualityController implements Initializable {
             }
             sortEuclidesMetrics.add(new Metrics(user, d));
         }
-        System.out.println(sortEuclidesMetrics.size());
+        //System.out.println(sortEuclidesMetrics.size());
         return sortEuclidesMetrics;
     }
 
     private double checkQualityFunction(String metric) {
+        counter = 0;
         int kParameter = 3;
         ArrayList<Metrics> euclides = null;    //lista zawierajaca uzytkownika i czas liczony wedlug wzoru Euclidesa
         ArrayList<Metrics> sortEuclides;        //lista posortowana
@@ -83,6 +84,7 @@ public class QualityController implements Initializable {
         metric = metrics.getSelectionModel().getSelectedItem().toString(); //wybor metryki
 
         if (metric.equals("Euklidesowa")) {
+            System.out.println("Jakość Euklidesowa");
             for (User us : users) {
                 euclides = new ArrayList<>();
                 for (User u : users) {
@@ -115,6 +117,7 @@ public class QualityController implements Initializable {
                 }
             }
         } else if (metric.equals("Manhattan")) {
+            System.out.println("Jakość Manhattana");
             for (User us : users) {
                 euclides = new ArrayList<>();
                 for (User u : users) {
@@ -124,6 +127,41 @@ public class QualityController implements Initializable {
                         sum += Math.abs((u.getAlphabet()[i] - us.getAlphabet()[i]));
                     }
                     euclides.add(new Metrics(u, sum));
+                }
+                sortEuclides = sort(euclides);
+
+                for (int i = 0; i < kParameter; i++) {
+                    userNames.add(sortEuclides.get(i).getUser().getName());
+                }
+                int max = 0;        //maksymalna liczba wystapien opbiektu
+                double minSum = sortEuclides.get(0).getSum();      //najmniejsza droga
+                int howMany = 0;    //liczba wystapien danego obiektu
+                String nameOfUser = null;
+                for (int i = 0; i < kParameter; i++) {
+                    howMany = Collections.frequency(userNames, sortEuclides.get(i).getUser().getName());
+                    if ((howMany >= max) && (sortEuclides.get(i).getSum() <= minSum)) {
+                        max = howMany;
+                        minSum = sortEuclides.get(i).getSum();
+                        nameOfUser = sortEuclides.get(i).getUser().getName();
+                    }
+                }
+                if (nameOfUser.equals(us.getName())) {
+                    counter++;
+                }
+            }
+        } else if (metric.equals("Czebyszewa")) {
+            System.out.println("Jakość Czebyszewa");
+            ArrayList<Double> absValues;
+            for (User us : users) {
+                absValues = new ArrayList<>();
+                euclides = new ArrayList<>();
+                for (User u : users) {
+                    for (int i = 0; i < 27; i++) {
+                        /* sum += pierwiastek(potega(i-ta litera nowego uzytkownika + i-ta litera przykladowego uzytkownika))*/
+                        absValues.add((double)(Math.abs((u.getAlphabet()[i] - us.getAlphabet()[i]))));
+                    }
+                    double maxAbs = Collections.max(absValues);
+                    euclides.add(new Metrics(u, maxAbs));
                 }
                 sortEuclides = sort(euclides);
 
